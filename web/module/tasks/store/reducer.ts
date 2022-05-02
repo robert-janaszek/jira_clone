@@ -42,8 +42,17 @@ export const TasksReducer = createReducer(initialState, (builder) => {
     state.tasks.sort((a, b) => a.index - b.index);
   });
 
-  builder.addCase(loadTasksAction, (state, action) => {
+  builder.addCase(loadTasksAction.pending, (state) => {
+    state.isFetching = true;
+  });
+  builder.addCase(loadTasksAction.fulfilled, (state, action) => {
+    state.isFetching = false;
     state.isLoaded = true;
     state.tasks = action.payload;
+  });
+  builder.addCase(loadTasksAction.rejected, (state) => {
+    state.isFetching = false;
+    state.isError = true;
+    state.isLoaded = true;
   });
 });

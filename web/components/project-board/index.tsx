@@ -18,10 +18,10 @@ const mapTasksForStatus = (tasks: ITask[], taskStatus: string) => (<>
 </>)
 
 export const ProjectBoard = () => {
-  const { tasks, isFetching, isError } = useTasks();
+  const { tasks, isFetching, isError, isLoaded } = useTasks();
   const updateDropTask = useDispatcher(updateDropTaskAction);
 
-  if (isFetching) {
+  if (isFetching || !isLoaded) {
     return <Center style={{ height: '100%' }}><Loader /></Center>;
   }
 
