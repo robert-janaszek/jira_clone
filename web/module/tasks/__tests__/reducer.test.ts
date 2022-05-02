@@ -1,11 +1,11 @@
 import { DropResult } from "react-beautiful-dnd";
-import { updateDropTaskAction } from "../actions";
-import { TasksReducer } from "../reducer";
+import { updateDropTaskAction } from "../store/actions";
+import { TasksReducer } from "../store/reducer";
 import { initialTasks } from "./data";
 
 const initialState = {
   isFetching: false,
-  isLoaded: false,
+  isError: false,
   tasks: initialTasks,
 }
 

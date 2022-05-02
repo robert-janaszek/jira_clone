@@ -1,39 +1,27 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { updateDropTaskAction } from "./actions";
+import { loadTasksAction, updateDropTaskAction } from "./actions";
 import { rebuildWhenRemoveIndex, rebuildWhenAddIndex } from "./service";
-import { ITask } from "./types";
-
+import { ITask } from "../types";
 
 interface TasksReducerState {
   isFetching: boolean;
   isError: boolean;
+  isLoaded: boolean;
   tasks: ITask[];
 }
-
-const initialTasks: ITask[] = [
-  { id: 'TASK-1', index: 1, status: 'backlog', },
-  { id: 'TASK-2', index: 2, status: 'backlog', },
-  { id: 'TASK-3', index: 3, status: 'backlog', },
-  { id: 'TASK-4', index: 4, status: 'backlog', },
-  { id: 'TASK-5', index: 5, status: 'ready-for-dev', },
-  { id: 'TASK-6', index: 6, status: 'ready-for-dev', },
-  { id: 'TASK-7', index: 7, status: 'ready-for-dev', },
-  { id: 'TASK-8', index: 8, status: 'in-progress', },
-  { id: 'TASK-9', index: 9, status: 'in-progress', },
-  { id: 'TASK-10', index: 10, status: 'done', },
-];
 
 const initialState: TasksReducerState = {
   isFetching: false,
   isError: false,
-  tasks: initialTasks,
+  isLoaded: false,
+  tasks: [],
 }
 
 export const TasksReducer = createReducer(initialState, (builder) => {
   builder.addCase(updateDropTaskAction, (state, action) => {
     const dropResult = action.payload;
 
-    const draggedTask = state.tasks.find(task => task.id === dropResult.draggableId);
+    const draggedTask = state.tasks.find(task => task.key === dropResult.draggableId);
     if (!draggedTask) {
       return;
     }
@@ -52,5 +40,10 @@ export const TasksReducer = createReducer(initialState, (builder) => {
     draggedTask.status = dropResult.destination.droppableId;
 
     state.tasks.sort((a, b) => a.index - b.index);
+  });
+
+  builder.addCase(loadTasksAction, (state, action) => {
+    state.isLoaded = true;
+    state.tasks = action.payload;
   });
 });

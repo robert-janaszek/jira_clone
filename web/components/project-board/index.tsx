@@ -3,9 +3,9 @@ import * as React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 
 import { AlertTriangle } from 'tabler-icons-react';
-import { updateDropTaskAction } from "../../store/tasks/actions";
-import { useTasks } from "../../store/tasks/selectors";
-import { ITask } from "../../store/tasks/types";
+import { updateDropTaskAction } from "../../module/tasks/store/actions";
+import { useTasks } from "../../module/tasks/service";
+import { ITask } from "../../module/tasks/types";
 import { useDispatcher } from "../../utils/use-dispatcher";
 import { StatusLane } from "../status-line";
 import { Task } from "../task";
@@ -13,7 +13,7 @@ import { Task } from "../task";
 const mapTasksForStatus = (tasks: ITask[], taskStatus: string) => (<>
   {tasks
     .filter(({ status }) => status === taskStatus)
-    .map(task => <Task id={task.id} index={task.index} key={task.id} />)
+    .map(task => <Task id={task.key} index={task.index} key={task.key} />)
   }
 </>)
 

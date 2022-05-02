@@ -1,4 +1,4 @@
-import { ITask } from "./types";
+import { ITask } from "../types";
 
 export const rebuildWhenRemoveIndex = (tasks: ITask[], index: number) => {
   tasks.filter(task => task.index >= index)
