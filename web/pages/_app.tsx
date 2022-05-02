@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
-  const [colorScheme, toggleColorScheme] = useToggle<ColorScheme>('light', ['light', 'dark']);
+  const [colorScheme, toggleColorScheme] = useToggle<ColorScheme>('dark', ['light', 'dark']);
 
   return (
     <>

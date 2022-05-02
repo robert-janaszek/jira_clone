@@ -1,4 +1,4 @@
-import { Grid, } from "@mantine/core";
+import { Center, Grid, Loader, Text } from "@mantine/core";
 import * as React from "react";
 
 import { DragDropContext } from "../../components/dnd";
@@ -8,6 +8,7 @@ import { updateDropTaskAction } from "../../store/tasks/actions";
 import { useTasks } from "../../store/tasks/selectors";
 import { ITask } from "../../store/tasks/types";
 import { useDispatcher } from "../../utils/use-dispatcher";
+import { AlertTriangle } from 'tabler-icons-react';
 
 const mapTasksForStatus = (tasks: ITask[], taskStatus: string) => (<>
   {tasks
@@ -17,8 +18,16 @@ const mapTasksForStatus = (tasks: ITask[], taskStatus: string) => (<>
 </>)
 
 const Board = () => {
-  const { tasks } = useTasks();
+  const { tasks, isFetching, isError } = useTasks();
   const updateDropTask = useDispatcher(updateDropTaskAction);
+
+  if (isFetching) {
+    return <Center style={{ height: '100%' }}><Loader /></Center>;
+  }
+
+  if (isError) {
+    return <Center style={{ height: '100%' }}><AlertTriangle /><Text size="sm">Error occured</Text></Center>;
+  }
 
   return <DragDropContext onDragEnd={updateDropTask}>
     <Grid align="stretch" sx={() => ({ position: 'relative', })}>

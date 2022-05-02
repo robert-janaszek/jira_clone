@@ -6,7 +6,7 @@ import { ITask } from "./types";
 
 interface TasksReducerState {
   isFetching: boolean;
-  isLoaded: boolean;
+  isError: boolean;
   tasks: ITask[];
 }
 
@@ -25,7 +25,7 @@ const initialTasks: ITask[] = [
 
 const initialState: TasksReducerState = {
   isFetching: false,
-  isLoaded: false,
+  isError: false,
   tasks: initialTasks,
 }
 
