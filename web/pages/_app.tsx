@@ -6,6 +6,10 @@ import { useToggle } from '@mantine/hooks';
 import { AppHeader } from '../components/header';
 import store from '../store';
 import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+
+const queryClient = new QueryClient();
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -19,26 +23,29 @@ export default function App(props: AppProps) {
       </Head>
 
       <Provider store={store}>
-        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-          <MantineProvider
-            withGlobalStyles
-            withNormalizeCSS
-            theme={{
-              colorScheme
-            }}
-            >
-            <AppShell
-              padding="md"
-              navbar={<AppNavbar />}
-              header={<AppHeader />}
-              styles={(theme) => ({
-                main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
-              })}
+        <QueryClientProvider client={queryClient}>
+          <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+            <MantineProvider
+              withGlobalStyles
+              withNormalizeCSS
+              theme={{
+                colorScheme
+              }}
               >
-              <Component {...pageProps} />
-            </AppShell>
-          </MantineProvider>
-        </ColorSchemeProvider>
+              <AppShell
+                padding="md"
+                navbar={<AppNavbar />}
+                header={<AppHeader />}
+                styles={(theme) => ({
+                  main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
+                })}
+                >
+                <Component {...pageProps} />
+              </AppShell>
+              <ReactQueryDevtools />
+            </MantineProvider>
+          </ColorSchemeProvider>
+        </QueryClientProvider>
       </Provider>
     </>
   );
