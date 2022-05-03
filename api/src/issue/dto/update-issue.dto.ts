@@ -27,9 +27,14 @@ export class UpdateIssueDto {
   @IsNumber()
   projectId: number;
 
+  @IsOptional()
   @IsArray()
   @IsNumber({}, { each: true })
   userIds: number[];
+
+  @IsOptional()
+  @IsNumber()
+  listPosition: number;
 
   @Allow()
   users?: User[];

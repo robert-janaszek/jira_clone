@@ -92,7 +92,7 @@ const seedIssues = (project: Project): Promise<Issue[]> => {
     createEntity(Issue, {
       title: 'Each issue can be assigned priority from lowest to highest.',
       type: IssueType.TASK,
-      status: IssueStatus.SELECTED,
+      status: IssueStatus.READY_FOR_DEV,
       priority: IssuePriority.HIGHEST,
       listPosition: 5,
       description: `<p>An issue's priority indicates its relative importance. The default priorities are listed below. Both the priorities and their meanings can be&nbsp;customized by your administrator to suit your organization.&nbsp;<a href="https://confluence.atlassian.com/adminjiracloud/configuring-statuses-resolutions-and-priorities-776636333.html" rel="noopener noreferrer" target="_blank">Learn more about configuring priorities and their descriptions</a>.</p><p><br></p><h3>Jira software issue priorities:</h3><p><br></p><h3><strong style="background-color: rgb(230, 0, 0); color: rgb(255, 255, 255);"> Highest </strong><strong style="color: rgb(255, 255, 255);"> </strong><span style="color: rgb(51, 51, 51);">⬆️</span></h3><p>This problem will block progress.</p><p><br></p><h3><strong style="background-color: rgb(240, 102, 102); color: rgb(255, 255, 255);"> High </strong><strong style="color: rgb(255, 255, 255);"> </strong><span style="color: rgb(51, 51, 51);">⬆️</span></h3><p>Serious problem that could block progress.</p><p><br></p><h3><strong style="background-color: rgb(255, 153, 0); color: rgb(255, 255, 255);"> Medium </strong><strong style="color: rgb(255, 255, 255);"> </strong><span style="color: rgb(51, 51, 51);">⬆️</span></h3><p>Has the potential to affect progress.</p><p><br></p><h3><strong style="background-color: rgb(0, 138, 0); color: rgb(255, 255, 255);"> Low </strong><strong style="color: rgb(255, 255, 255);"> </strong><span style="color: rgb(51, 51, 51);">⬇️</span></h3><p>Minor problem or easily worked around.</p><p><br></p><h3><strong style="background-color: rgb(102, 185, 102); color: rgb(255, 255, 255);"> Lowest </strong><strong style="color: rgb(255, 255, 255);"> </strong><span style="color: rgb(51, 51, 51);">⬇️</span></h3><p>Trivial problem with little or no impact on progress.</p>`,
@@ -104,7 +104,7 @@ const seedIssues = (project: Project): Promise<Issue[]> => {
     createEntity(Issue, {
       title: 'Each issue has a single reporter but can have multiple assignees.',
       type: IssueType.STORY,
-      status: IssueStatus.SELECTED,
+      status: IssueStatus.READY_FOR_DEV,
       priority: IssuePriority.HIGH,
       listPosition: 6,
       description: `<h2>Try assigning <u style="background-color: rgb(204, 232, 204);">Pickle Rick</u> to this issue. <span style="color: rgb(51, 51, 51);">🥒&nbsp;🥒&nbsp;🥒</span></h2><p><br></p>`,
@@ -118,7 +118,7 @@ const seedIssues = (project: Project): Promise<Issue[]> => {
       title:
         'You can track how many hours were spent working on an issue, and how many hours remain.',
       type: IssueType.TASK,
-      status: IssueStatus.INPROGRESS,
+      status: IssueStatus.IN_PROGRESS,
       priority: IssuePriority.LOWEST,
       listPosition: 7,
       description: `<p>Before you start work on an issue, you can set a time or other type of estimate to calculate how much work you believe it'll take to resolve it. Once you've started to work on a specific issue, log time to keep a record of it.</p><p><br></p><ul><li>Open the issue and select&nbsp;••• &gt;&nbsp;Time tracking</li><li>Fill in the<strong>&nbsp;Time Spent</strong>&nbsp;field</li><li>Fill in the <strong>Time Remaining</strong> field and click Save</li></ul><p><br></p><h3><u style="background-color: initial;">That's it!</u></h3><h1>💯💯</h1>`,

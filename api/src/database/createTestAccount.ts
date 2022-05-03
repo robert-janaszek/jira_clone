@@ -56,7 +56,7 @@ const seedIssues = (project: Project): Promise<Issue[]> => {
     createEntity(Issue, {
       title: 'Issue title 3',
       type: IssueType.STORY,
-      status: IssueStatus.SELECTED,
+      status: IssueStatus.READY_FOR_DEV,
       priority: IssuePriority.HIGH,
       listPosition: 3,
       estimate: 10,

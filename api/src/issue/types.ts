@@ -6,8 +6,8 @@ export enum IssueType {
 
 export enum IssueStatus {
   BACKLOG = 'backlog',
-  SELECTED = 'selected',
-  INPROGRESS = 'inprogress',
+  READY_FOR_DEV = 'ready-for-dev',
+  IN_PROGRESS = 'in-progress',
   DONE = 'done',
 }
 
