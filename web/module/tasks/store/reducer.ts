@@ -3,14 +3,14 @@ import { loadTasksAction, updateDropTaskAction } from "./actions";
 import { rebuildWhenRemoveIndex, rebuildWhenAddIndex } from "./service";
 import { ITask } from "../types";
 
-interface TasksReducerState {
+interface TasksState {
   isFetching: boolean;
   isError: boolean;
   isLoaded: boolean;
   tasks: ITask[];
 }
 
-const initialState: TasksReducerState = {
+const initialState: TasksState = {
   isFetching: false,
   isError: false,
   isLoaded: false,
