@@ -1,12 +1,6 @@
-import { ActionCreatorWithPayload, AsyncThunk } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 
-export const useDispatcher = <T, R>(action: ActionCreatorWithPayload<T, string>) => {
+export const useDispatcher = <T extends unknown[], R>(action: (...args: T) => R) => {
   const dispatch = useDispatch();
-  return (param: T) => dispatch(action(param));
-}
-
-export const useAsyncDispatcher = <T, R>(action: AsyncThunk<R, T, {}>) => {
-  const dispatch = useDispatch();
-  return (param: T) => dispatch(action(param));
+  return (...params: T) => dispatch(action(...params));
 }

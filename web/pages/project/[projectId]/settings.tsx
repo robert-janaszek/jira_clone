@@ -1,5 +1,4 @@
 import { Button, TextInput } from '@mantine/core';
-import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { useRouter } from 'next/router';
 import { Breadcrumb } from '../../../components/breadcrumb';
 import { useProject } from '../../../module/project/service';
@@ -25,7 +24,7 @@ const Board = () => {
       value={projectName}
       onChange={(event) => updateProjectNameInStore(event.currentTarget.value)}
     />
-    <Button onClick={() => discard(undefined) }>
+    <Button onClick={() => discard() }>
       Save changes
     </Button>
   </>;
