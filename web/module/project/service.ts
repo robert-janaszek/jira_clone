@@ -1,38 +1,17 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useDispatcher } from "../../utils/use-dispatcher";
+import { projectClient } from "./client";
 import { discardProjectUpdates, updateProjectCategoryAction, updateProjectNameAction } from "./store/actions";
 import { getProject, getProjectCategory, getProjectName } from "./store/selectors";
-import { Project, ProjectDTO } from "./types";
-
-const fetchProject = async (projectId: string | string[] | undefined) => {
-  if (!projectId || Array.isArray(projectId)) {
-    return;
-  }
-  const response = await fetch('http://localhost:3000/projects/' + projectId);
-  const projectInfo = await response.json() as Project;
-  return projectInfo;
-}
-
-const updateProject = async (projectId: string | string[] | undefined, projectInfo: ProjectDTO) => {
-  if (!projectId || Array.isArray(projectId)) {
-    return;
-  }
-
-  const response = await fetch('http://localhost:3000/projects/' + projectId,
-  {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(projectInfo),
-  });
-
-  return response;
-}
 
 export const useProject = (projectId: string | string[] | undefined, onSuccess?: () => void) => {
-  return useQuery(['project', projectId], () => fetchProject(projectId), { staleTime: 5*60*1000, onSuccess: () => onSuccess?.()});
+  return useQuery(['project', projectId], () => {
+    if (projectId === undefined || Array.isArray(projectId)) {
+      return;
+    }
+    return projectClient.fetch(projectId);
+  }, { staleTime: 5*60*1000, onSuccess: () => onSuccess?.()});
 }
 
 export const useProjectName = (projectId: string | string[] | undefined) => {
@@ -86,15 +65,19 @@ export const useDiscardProjectUpdates = () => {
 export const useUpdateProject = (projectId: string | string[] | undefined) => {
   const project = getProject();
   const queryClient = useQueryClient();
-  const projectMutation = useMutation(() => updateProject(projectId, project), {
+  const projectMutation = useMutation(async () => {
+    if (projectId === undefined || Array.isArray(projectId)) {
+      return;
+    }
+    return projectClient.update(projectId, project);
+  }, {
     onSuccess: async (data) => {
       if (!data) {
         queryClient.invalidateQueries(['project', projectId]);
         return;
       }
 
-      const project = await data.json() as Project;
-      queryClient.setQueryData(['project', projectId], () => project);
+      queryClient.setQueryData(['project', projectId], () => data);
     }
   });
   return projectMutation;
