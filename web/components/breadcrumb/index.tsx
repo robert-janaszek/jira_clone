@@ -10,6 +10,6 @@ export const Breadcrumb = ({ projectId, page }: BreadcrumbProps) => {
   const project = useProject(projectId);
 
   return <Text>
-    Project / {project?.name} / {page}
+    Project / {project.data?.name} / {page}
   </Text>
 };

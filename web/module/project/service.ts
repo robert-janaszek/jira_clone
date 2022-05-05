@@ -1,9 +1,9 @@
-import { useMemo } from "react";
-import { useQuery } from "react-query";
+import { useCallback, useMemo } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useDispatcher } from "../../utils/use-dispatcher";
 import { discardProjectUpdates, updateProjectCategoryAction, updateProjectNameAction } from "./store/actions";
-import { getProjectCategory, getProjectName } from "./store/selectors";
-import { Project } from "./types";
+import { getProject, getProjectCategory, getProjectName } from "./store/selectors";
+import { Project, ProjectDTO } from "./types";
 
 const fetchProject = async (projectId: string | string[] | undefined) => {
   if (!projectId || Array.isArray(projectId)) {
@@ -12,6 +12,23 @@ const fetchProject = async (projectId: string | string[] | undefined) => {
   const response = await fetch('http://localhost:3000/projects/' + projectId);
   const projectInfo = await response.json() as Project;
   return projectInfo;
+}
+
+const updateProject = async (projectId: string | string[] | undefined, projectInfo: ProjectDTO) => {
+  if (!projectId || Array.isArray(projectId)) {
+    return;
+  }
+
+  const response = await fetch('http://localhost:3000/projects/' + projectId,
+  {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(projectInfo),
+  });
+
+  return response;
 }
 
 export const useProject = (projectId: string | string[] | undefined, onSuccess?: () => void) => {
@@ -30,7 +47,7 @@ export const useProjectName = (projectId: string | string[] | undefined) => {
 export const useProjectCategory = (projectId: string | string[] | undefined) => {
   const project = useProject(projectId);
   const updateProjectCategoryInStore = useDispatcher(updateProjectCategoryAction);
-  const updateProjectCategoryMemo = useMemo(() => (projectCategory: string | null) => {
+  const updateProjectCategoryMemo = useCallback((projectCategory: string | null) => {
     if (!projectCategory) {
       return;
     }
@@ -45,4 +62,21 @@ export const useProjectCategory = (projectId: string | string[] | undefined) => 
 export const useDiscardProjectUpdates = () => {
   const discard = useDispatcher(discardProjectUpdates);
   return discard;
+}
+
+export const useUpdateProject = (projectId: string | string[] | undefined) => {
+  const project = getProject();
+  const queryClient = useQueryClient();
+  const projectMutation = useMutation(() => updateProject(projectId, project), {
+    onSuccess: async (data) => {
+      if (!data) {
+        queryClient.invalidateQueries(['project', projectId]);
+        return;
+      }
+
+      const project = await data.json() as Project;
+      queryClient.setQueryData(['project', projectId], () => project);
+    }
+  });
+  return projectMutation;
 }

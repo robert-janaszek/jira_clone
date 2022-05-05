@@ -1,7 +1,7 @@
 import { Button, Group, LoadingOverlay, Select, TextInput } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { Breadcrumb } from '../../../components/breadcrumb';
-import { useDiscardProjectUpdates, useProject, useProjectCategory, useProjectName } from '../../../module/project/service';
+import { useDiscardProjectUpdates, useProject, useProjectCategory, useProjectName, useUpdateProject } from '../../../module/project/service';
 
 const Board = () => {
   const { query } = useRouter();
@@ -12,6 +12,7 @@ const Board = () => {
   const { isFetching } = useProject(projectId, discard);
   const [projectName, updateProjectName] = useProjectName(projectId);
   const [projectCategory, updateProjectCategory] = useProjectCategory(projectId);
+  const update = useUpdateProject(projectId);
   
   return <>
     <Breadcrumb projectId={projectId} page="Settings" />
@@ -36,7 +37,7 @@ const Board = () => {
         onChange={(value) => updateProjectCategory(value)}
       />
       <Group>
-        <Button onClick={discard}>
+        <Button onClick={() => update.mutate()}>
           Save changes
         </Button>
         <Button onClick={discard}>

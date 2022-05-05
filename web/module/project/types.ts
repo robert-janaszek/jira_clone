@@ -4,3 +4,8 @@ export interface Project {
   description: string;
   category: string;
 }
+
+export interface ProjectDTO {
+  name?: string;
+  category?: string;
+}
