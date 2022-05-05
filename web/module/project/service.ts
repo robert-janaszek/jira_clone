@@ -37,7 +37,15 @@ export const useProject = (projectId: string | string[] | undefined, onSuccess?:
 
 export const useProjectName = (projectId: string | string[] | undefined) => {
   const project = useProject(projectId);
-  const updateProjectNameInStore = useDispatcher(updateProjectNameAction);
+  const updateProjectName = useDispatcher(updateProjectNameAction);
+  const resetProjectName = () => updateProjectName(undefined);
+  const updateProjectNameInStore = useCallback((name: string) => {
+    if (name === project.data?.name) {
+      resetProjectName();
+      return;
+    }
+    updateProjectName(name);
+  }, [project]);
   const updatedProjectName = getProjectName();
   const projectName = updatedProjectName ?? project.data?.name ?? '';
 
@@ -47,16 +55,27 @@ export const useProjectName = (projectId: string | string[] | undefined) => {
 export const useProjectCategory = (projectId: string | string[] | undefined) => {
   const project = useProject(projectId);
   const updateProjectCategoryInStore = useDispatcher(updateProjectCategoryAction);
+  const resetProjectCategory = () => updateProjectCategoryInStore(undefined);
   const updateProjectCategoryMemo = useCallback((projectCategory: string | null) => {
     if (!projectCategory) {
       return;
     }
+    if (projectCategory === project.data?.category) {
+      resetProjectCategory();
+      return;
+    }
     updateProjectCategoryInStore(projectCategory);
-  }, []);
+  }, [project]);
   const updatedProjectCategory = getProjectCategory();
   const projectCategory = updatedProjectCategory ?? project.data?.category ?? '';
 
   return [projectCategory, updateProjectCategoryMemo] as const;
+}
+
+export const useIsProjectModified = () => {
+  const project = getProject();
+  const anyValuesNotNull = Object.values(project).some(value => value !== undefined);
+  return anyValuesNotNull;
 }
 
 export const useDiscardProjectUpdates = () => {

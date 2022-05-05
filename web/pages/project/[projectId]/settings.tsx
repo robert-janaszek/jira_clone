@@ -1,7 +1,7 @@
 import { Button, Group, LoadingOverlay, Select, TextInput } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { Breadcrumb } from '../../../components/breadcrumb';
-import { useDiscardProjectUpdates, useProject, useProjectCategory, useProjectName, useUpdateProject } from '../../../module/project/service';
+import { useDiscardProjectUpdates, useIsProjectModified, useProject, useProjectCategory, useProjectName, useUpdateProject } from '../../../module/project/service';
 
 const Board = () => {
   const { query } = useRouter();
@@ -13,6 +13,7 @@ const Board = () => {
   const [projectName, updateProjectName] = useProjectName(projectId);
   const [projectCategory, updateProjectCategory] = useProjectCategory(projectId);
   const update = useUpdateProject(projectId);
+  const isProjectModified = useIsProjectModified();
   
   return <>
     <Breadcrumb projectId={projectId} page="Settings" />
@@ -37,10 +38,10 @@ const Board = () => {
         onChange={(value) => updateProjectCategory(value)}
       />
       <Group>
-        <Button onClick={() => update.mutate()}>
+        <Button onClick={() => update.mutate()} disabled={!isProjectModified}>
           Save changes
         </Button>
-        <Button onClick={discard}>
+        <Button onClick={() => discard()}>
           Discard
         </Button>
       </Group>
