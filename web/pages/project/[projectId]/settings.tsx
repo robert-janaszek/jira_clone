@@ -1,32 +1,49 @@
-import { Button, TextInput } from '@mantine/core';
+import { Button, Group, LoadingOverlay, Select, TextInput } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { Breadcrumb } from '../../../components/breadcrumb';
-import { useProject } from '../../../module/project/service';
-import { discardProjectUpdates, updateProjectNameAction } from '../../../module/project/store/actions';
-import { getProjectName } from '../../../module/project/store/selectors';
-import { useDispatcher } from '../../../utils/use-dispatcher';
+import { useDiscardProjectUpdates, useProject, useProjectCategory, useProjectName } from '../../../module/project/service';
 
 const Board = () => {
   const { query } = useRouter();
   const projectId = query.projectId;
-  const project = useProject(projectId);
-  const updateProjectNameInStore = useDispatcher(updateProjectNameAction);
-  const updatedProjectName = getProjectName();
-  const projectName = updatedProjectName ?? project?.name ?? '';
-  const discard = useDispatcher(discardProjectUpdates);
+  const discard = useDiscardProjectUpdates();
+
+  // TODO: notify about discarding updates
+  const { isFetching } = useProject(projectId, discard);
+  const [projectName, updateProjectName] = useProjectName(projectId);
+  const [projectCategory, updateProjectCategory] = useProjectCategory(projectId);
   
   return <>
     <Breadcrumb projectId={projectId} page="Settings" />
-    <TextInput
-      placeholder="Project name"
-      label="Name"
-      required
-      value={projectName}
-      onChange={(event) => updateProjectNameInStore(event.currentTarget.value)}
-    />
-    <Button onClick={() => discard() }>
-      Save changes
-    </Button>
+    <div style={{ position: 'relative' }}>
+      <LoadingOverlay visible={isFetching} />
+      <TextInput
+        placeholder="Project name"
+        label="Type in project name"
+        required
+        value={projectName}
+        onChange={(event) => updateProjectName(event.currentTarget.value)}
+      />
+      <Select
+        label="Project category"
+        placeholder="Choose project category"
+        data={[
+          { value: 'software', label: 'Software' },
+          { value: 'marketing', label: 'Marketing' },
+          { value: 'business', label: 'Business' },
+        ]}
+        value={projectCategory}
+        onChange={(value) => updateProjectCategory(value)}
+      />
+      <Group>
+        <Button onClick={discard}>
+          Save changes
+        </Button>
+        <Button onClick={discard}>
+          Discard
+        </Button>
+      </Group>
+    </div>
   </>;
 }
 
