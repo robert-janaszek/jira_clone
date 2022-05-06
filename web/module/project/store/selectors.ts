@@ -14,3 +14,8 @@ export const getProjectCategory = () => {
   const project = getProject();
   return project.category;
 }
+
+export const getProjectDescription = () => {
+  const project = getProject();
+  return project.description;
+}

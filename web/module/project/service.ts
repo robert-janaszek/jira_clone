@@ -2,8 +2,8 @@ import { useCallback } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useDispatcher } from "../../utils/use-dispatcher";
 import { projectClient } from "./client";
-import { discardProjectUpdates, updateProjectCategoryAction, updateProjectNameAction } from "./store/actions";
-import { getProject, getProjectCategory, getProjectName } from "./store/selectors";
+import { discardProjectUpdates, updateProjectCategoryAction, updateProjectDescriptionAction, updateProjectNameAction } from "./store/actions";
+import { getProject, getProjectCategory, getProjectDescription, getProjectName } from "./store/selectors";
 
 export const useProject = (projectId: string | string[] | undefined, onSuccess?: () => void) => {
   return useQuery(['project', projectId], () => {
@@ -49,6 +49,26 @@ export const useProjectCategory = (projectId: string | string[] | undefined) => 
   const projectCategory = updatedProjectCategory ?? project.data?.category ?? '';
 
   return [projectCategory, updateProjectCategoryMemo] as const;
+}
+
+export const useProjectDescription = (projectId: string | string[] | undefined) => {
+  const project = useProject(projectId);
+  const updateProjectDescriptionInStore = useDispatcher(updateProjectDescriptionAction);
+  const resetProjectDescription = () => updateProjectDescriptionInStore(undefined);
+  const updateProjectDescriptionMemo = useCallback((projectDescription: string | null) => {
+    if (!projectDescription) {
+      return;
+    }
+    if (projectDescription === project.data?.description) {
+      resetProjectDescription();
+      return;
+    }
+    updateProjectDescriptionInStore(projectDescription);
+  }, [project]);
+  const updatedProjectDescription = getProjectDescription();
+  const projectDescription = updatedProjectDescription ?? project.data?.description ?? '';
+
+  return [projectDescription, updateProjectDescriptionMemo] as const;
 }
 
 export const useIsProjectModified = () => {

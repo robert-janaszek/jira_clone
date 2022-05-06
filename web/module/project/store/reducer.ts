@@ -1,10 +1,11 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { discardProjectUpdates, updateProjectCategoryAction, updateProjectNameAction } from "./actions";
+import { discardProjectUpdates, updateProjectCategoryAction, updateProjectDescriptionAction, updateProjectNameAction } from "./actions";
 
 interface ProjectState {
   updates: {
     name?: string;
     category?: string;
+    description?: string;
   }
 }
 
@@ -17,6 +18,9 @@ export const ProjectReducer = createReducer(initialState, (builder) => {
   builder.addCase(updateProjectCategoryAction, (state, action) => {
     state.updates.category = action.payload;
   });
+  builder.addCase(updateProjectDescriptionAction, (state, action) => {
+    state.updates.description = action.payload;
+  })
 
   builder.addCase(discardProjectUpdates, (state) => {
     state.updates = {};

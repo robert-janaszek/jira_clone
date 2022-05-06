@@ -1,7 +1,8 @@
 import { Button, Group, LoadingOverlay, Select, TextInput } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { Breadcrumb } from '../../../components/breadcrumb';
-import { useDiscardProjectUpdates, useIsProjectModified, useProject, useProjectCategory, useProjectName, useUpdateProject } from '../../../module/project/service';
+import { useDiscardProjectUpdates, useIsProjectModified, useProject, useProjectCategory, useProjectDescription, useProjectName, useUpdateProject } from '../../../module/project/service';
+import RichTextEditor from '../../../components/rte';
 
 const Board = () => {
   const { query } = useRouter();
@@ -12,6 +13,7 @@ const Board = () => {
   const { isFetching } = useProject(projectId, discard);
   const [projectName, updateProjectName] = useProjectName(projectId);
   const [projectCategory, updateProjectCategory] = useProjectCategory(projectId);
+  const [description, updateDescription] = useProjectDescription(projectId);
   const update = useUpdateProject(projectId);
   const isProjectModified = useIsProjectModified();
   
@@ -26,6 +28,7 @@ const Board = () => {
         value={projectName}
         onChange={(event) => updateProjectName(event.currentTarget.value)}
       />
+      <RichTextEditor value={description} onChange={updateDescription} />
       <Select
         label="Project category"
         placeholder="Choose project category"
