@@ -6,6 +6,7 @@ import { discardProjectUpdates, updateProjectCategoryAction, updateProjectDescri
 import { getProject, getProjectCategory, getProjectDescription, getProjectName } from "./store/selectors";
 import { Project } from "./types";
 
+// TODO: change this interface into `useQuery` options interface
 interface UseProjectProps {
   onSuccess?: () => void;
   initialData?: Project;
@@ -17,7 +18,11 @@ export const useProject = (projectId: string | string[] | undefined, props?: Use
       return;
     }
     return projectClient.get(projectId);
-  }, { staleTime: 5*60*1000, onSuccess: () => props?.onSuccess?.(), initialData: props?.initialData });
+  }, {
+    staleTime: 5*60*1000,
+    onSuccess: () => props?.onSuccess?.(),
+    initialData: props?.initialData
+  });
 }
 
 export const useProjectName = (projectId: string | string[] | undefined) => {
