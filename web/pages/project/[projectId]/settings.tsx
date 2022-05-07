@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps<BoardProps> = async (context
   }
 
   try {
-    const project = await projectClient.get(projectId);
+    const project = await projectClient.getProject(projectId);
     return {
       props: {
         project,

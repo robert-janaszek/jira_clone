@@ -17,7 +17,7 @@ export const useProject = (projectId: string | string[] | undefined, props?: Use
     if (projectId === undefined || Array.isArray(projectId)) {
       return;
     }
-    return projectClient.get(projectId);
+    return projectClient.getProject(projectId);
   }, {
     staleTime: 5*60*1000,
     onSuccess: () => props?.onSuccess?.(),
