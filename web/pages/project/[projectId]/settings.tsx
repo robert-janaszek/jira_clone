@@ -51,20 +51,20 @@ const Board = (props: BoardProps) => {
       <LoadingOverlay visible={isFetching} />
       <Container py="sm">
         <TextInput
-          placeholder="Project name"
-          label="Type in project name"
+          placeholder="Type in project name"
+          label="Name"
           required
           value={projectName}
           onChange={(event) => updateProjectName(event.currentTarget.value)}
         />
       </Container>
       <Container py="sm">
-        <Text>Description</Text>
+        <Text size="sm" weight={500}>Description</Text>
         <RichTextEditor value={description} onChange={updateDescription} style={{ minHeight: 200 }} />
       </Container>
       <Container py="sm">
         <Select
-          label="Project category"
+          label="Category"
           placeholder="Choose project category"
           data={[
             { value: 'software', label: 'Software' },
