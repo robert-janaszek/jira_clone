@@ -3,14 +3,42 @@ import { useRouter } from 'next/router';
 import { Breadcrumb } from '../../../components/breadcrumb';
 import { useDiscardProjectUpdates, useIsProjectModified, useProject, useProjectCategory, useProjectDescription, useProjectName, useUpdateProject } from '../../../module/project/service';
 import RichTextEditor from '../../../components/rte';
+import { GetServerSideProps } from 'next';
+import { Project } from '../../../module/project/types';
+import { projectClient } from '../../../module/project/client';
 
-const Board = () => {
+interface BoardProps {
+  project?: Project;
+}
+
+export const getServerSideProps: GetServerSideProps<BoardProps> = async (context) => {
+  const projectId = context.query.projectId;
+  if (!projectId || Array.isArray(projectId)) {
+    return {
+      notFound: true,
+    };
+  }
+
+  try {
+    const project = await projectClient.get(projectId);
+    return {
+      props: {
+        project,
+      }
+    }
+  } catch (_) {
+    return {
+      notFound: true,
+    }
+  }
+}
+
+const Board = (props: BoardProps) => {
   const { query } = useRouter();
   const projectId = query.projectId;
   const discard = useDiscardProjectUpdates();
 
-  // TODO: notify about discarding updates
-  const { isFetching } = useProject(projectId, discard);
+  const { isFetching } = useProject(projectId, { onSuccess: discard, initialData: props.project });
   const [projectName, updateProjectName] = useProjectName(projectId);
   const [projectCategory, updateProjectCategory] = useProjectCategory(projectId);
   const [description, updateDescription] = useProjectDescription(projectId);

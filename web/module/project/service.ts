@@ -4,14 +4,20 @@ import { useDispatcher } from "../../utils/use-dispatcher";
 import { projectClient } from "./client";
 import { discardProjectUpdates, updateProjectCategoryAction, updateProjectDescriptionAction, updateProjectNameAction } from "./store/actions";
 import { getProject, getProjectCategory, getProjectDescription, getProjectName } from "./store/selectors";
+import { Project } from "./types";
 
-export const useProject = (projectId: string | string[] | undefined, onSuccess?: () => void) => {
+interface UseProjectProps {
+  onSuccess?: () => void;
+  initialData?: Project;
+}
+
+export const useProject = (projectId: string | string[] | undefined, props?: UseProjectProps) => {
   return useQuery(['project', projectId], () => {
     if (projectId === undefined || Array.isArray(projectId)) {
       return;
     }
-    return projectClient.fetch(projectId);
-  }, { staleTime: 5*60*1000, onSuccess: () => onSuccess?.()});
+    return projectClient.get(projectId);
+  }, { staleTime: 5*60*1000, onSuccess: () => props?.onSuccess?.(), initialData: props?.initialData });
 }
 
 export const useProjectName = (projectId: string | string[] | undefined) => {

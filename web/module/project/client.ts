@@ -1,8 +1,11 @@
 import { Project, ProjectDTO } from "./types";
 
 export class ProjectClient {
-  public async fetch(id: string) {
+  public async get(id: string) {
     const response = await fetch('http://localhost:3000/projects/' + id);
+    if (!response.ok) {
+      throw Error('Project was not found');
+    }
     const projectInfo = await response.json() as Project;
     return projectInfo;
   }
