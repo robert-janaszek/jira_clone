@@ -44,9 +44,9 @@ export const useProjectName = (projectId: string | string[] | undefined) => {
 
 export const useProjectCategory = (projectId: string | string[] | undefined) => {
   const project = useProject(projectId);
-  const updateProjectCategoryInStore = useDispatcher(updateProjectCategoryAction);
-  const resetProjectCategory = () => updateProjectCategoryInStore(undefined);
-  const updateProjectCategoryMemo = useCallback((projectCategory: string | null) => {
+  const updateProjectCategory = useDispatcher(updateProjectCategoryAction);
+  const resetProjectCategory = () => updateProjectCategory(undefined);
+  const updateProjectCategoryInStore = useCallback((projectCategory: string | null) => {
     if (!projectCategory) {
       return;
     }
@@ -54,19 +54,19 @@ export const useProjectCategory = (projectId: string | string[] | undefined) => 
       resetProjectCategory();
       return;
     }
-    updateProjectCategoryInStore(projectCategory);
+    updateProjectCategory(projectCategory);
   }, [project]);
   const updatedProjectCategory = getProjectCategory();
   const projectCategory = updatedProjectCategory ?? project.data?.category ?? '';
 
-  return [projectCategory, updateProjectCategoryMemo] as const;
+  return [projectCategory, updateProjectCategoryInStore] as const;
 }
 
 export const useProjectDescription = (projectId: string | string[] | undefined) => {
   const project = useProject(projectId);
-  const updateProjectDescriptionInStore = useDispatcher(updateProjectDescriptionAction);
-  const resetProjectDescription = () => updateProjectDescriptionInStore(undefined);
-  const updateProjectDescriptionMemo = useCallback((projectDescription: string | null) => {
+  const updateProjectDescription = useDispatcher(updateProjectDescriptionAction);
+  const resetProjectDescription = () => updateProjectDescription(undefined);
+  const updateProjectDescriptionInStore = useCallback((projectDescription: string | null) => {
     if (!projectDescription) {
       return;
     }
@@ -74,12 +74,12 @@ export const useProjectDescription = (projectId: string | string[] | undefined) 
       resetProjectDescription();
       return;
     }
-    updateProjectDescriptionInStore(projectDescription);
+    updateProjectDescription(projectDescription);
   }, [project]);
   const updatedProjectDescription = getProjectDescription();
   const projectDescription = updatedProjectDescription ?? project.data?.description ?? '';
 
-  return [projectDescription, updateProjectDescriptionMemo] as const;
+  return [projectDescription, updateProjectDescriptionInStore] as const;
 }
 
 export const useIsProjectModified = () => {
