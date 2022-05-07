@@ -8,6 +8,7 @@ import store from '../store';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { NotificationsProvider } from '@mantine/notifications';
 
 const queryClient = new QueryClient();
 
@@ -32,16 +33,18 @@ export default function App(props: AppProps) {
                 colorScheme
               }}
               >
-              <AppShell
-                padding="md"
-                navbar={<AppNavbar />}
-                header={<AppHeader />}
-                styles={(theme) => ({
-                  main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
-                })}
-                >
-                <Component {...pageProps} />
-              </AppShell>
+              <NotificationsProvider>
+                <AppShell
+                  padding="md"
+                  navbar={<AppNavbar />}
+                  header={<AppHeader />}
+                  styles={(theme) => ({
+                    main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
+                  })}
+                  >
+                  <Component {...pageProps} />
+                </AppShell>
+              </NotificationsProvider>
               <ReactQueryDevtools />
             </MantineProvider>
           </ColorSchemeProvider>

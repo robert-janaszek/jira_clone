@@ -1,3 +1,4 @@
+import { showNotification } from "@mantine/notifications";
 import { useCallback } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useDispatcher } from "../../utils/use-dispatcher";
@@ -5,6 +6,7 @@ import { projectClient } from "./client";
 import { discardProjectUpdates, updateProjectCategoryAction, updateProjectDescriptionAction, updateProjectNameAction } from "./store/actions";
 import { getProject, getProjectCategory, getProjectDescription, getProjectName } from "./store/selectors";
 import { Project } from "./types";
+import { showSuccessNotification } from "../notifications";
 
 // TODO: change this interface into `useQuery` options interface
 interface UseProjectProps {
@@ -103,6 +105,7 @@ export const useUpdateProject = (projectId: string | string[] | undefined) => {
     return projectClient.update(projectId, project);
   }, {
     onSuccess: async (data) => {
+      showSuccessNotification({ message: 'Project saved sucessfully!' })
       if (!data) {
         queryClient.invalidateQueries(['project', projectId]);
         return;
