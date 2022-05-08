@@ -6,4 +6,4 @@ export default dynamic(() => import('@mantine/rte'), {
   loading: () => <Center>
     <Loader style={{ minHeight: 200 }}/>
   </Center>,
-});
+})

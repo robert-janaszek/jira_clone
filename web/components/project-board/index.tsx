@@ -1,6 +1,6 @@
 import { Center, Grid, Loader, Text, Title } from "@mantine/core";
 import * as React from "react";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext } from "../dnd";
 
 import { AlertTriangle } from 'tabler-icons-react';
 import { updateDropTaskAction } from "../../module/tasks/store/actions";
@@ -17,6 +17,7 @@ const mapTasksForStatus = (tasks: ITask[], taskStatus: string) => (<>
   }
 </>)
 
+// TODO: fix dnd. It doesn't work after going to this page via link
 export const ProjectBoard = () => {
   const { tasks, isFetching, isError, isLoaded } = useTasks();
   const updateDropTask = useDispatcher(updateDropTaskAction);
