@@ -7,11 +7,11 @@ import { GetServerSideProps } from 'next';
 import { Project } from '../../../module/project/types';
 import { projectClient } from '../../../module/project/client';
 
-interface BoardProps {
+interface SettingsProps {
   project?: Project;
 }
 
-export const getServerSideProps: GetServerSideProps<BoardProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<SettingsProps> = async (context) => {
   const projectId = context.query.projectId;
   if (!projectId || Array.isArray(projectId)) {
     return {
@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps<BoardProps> = async (context
   }
 }
 
-const Board = (props: BoardProps) => {
+const Settings = (props: SettingsProps) => {
   const { query } = useRouter();
   const projectId = query.projectId;
   const discard = useDiscardProjectUpdates();
@@ -89,4 +89,4 @@ const Board = (props: BoardProps) => {
   </>;
 }
 
-export default Board;
+export default Settings;
