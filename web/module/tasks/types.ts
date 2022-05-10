@@ -1,9 +1,3 @@
-export interface ITask {
-  key: string;
-  index: number;
-  status: string;
-}
-
 export interface TaskDTO {
   id: number;
   title: string;

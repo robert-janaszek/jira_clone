@@ -8,7 +8,7 @@ export interface StatusLaneProps {
 
 export const StatusLane = ({ children, name, id }: React.PropsWithChildren<StatusLaneProps>) => (
   <Droppable droppableId={id} key={id}>
-    {(dropProvided, dropSnapshot) => (
+    {(dropProvided) => (
       <div {...dropProvided.droppableProps} ref={dropProvided.innerRef}>
         <Card sx={(theme) => ({
           backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[2],
