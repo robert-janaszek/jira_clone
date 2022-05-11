@@ -1,11 +1,17 @@
 import { RestClient } from "../rest-client";
-import { TaskDTO } from "./types";
+import { TaskDTO, UpdateTaskDTO } from "./types";
 
 export class IssueClient extends RestClient {
   public async getIssues() {
-    const response = await fetch('http://localhost:3000/issues');
-    const tasksDTOs = await response.json() as TaskDTO[];
+    const tasksDTOs = await this.get<TaskDTO[]>('http://localhost:3000/issues');
     return tasksDTOs;
+  }
+  
+  public async updateIssuePositionAndStatus(issue: TaskDTO) {
+    const { id, listPosition, status } = issue
+    return this.put<TaskDTO>('http://localhost:3000/issues/' + id, {
+      body: { listPosition, status }
+    })
   }
 }
 
