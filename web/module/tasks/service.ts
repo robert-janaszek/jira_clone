@@ -4,7 +4,7 @@ import { issueClient } from "./client";
 import { TaskDTO } from "./types";
 
 export const useTasks = () => {
-  const issuesQuery = useQuery(['issues'], () => issueClient.getIssues())
+  const issuesQuery = useQuery(['issues'], () => issueClient.getIssues(), { staleTime: 5*60*1000 })
   return issuesQuery
 }
 
@@ -22,12 +22,10 @@ export const taskSorter = (taskA: TaskDTO, taskB: TaskDTO) =>
 
 export const useOptimisticallyUpdateTask = () => {
   const queryClient = useQueryClient()
-  const taskMutation = useMutation(async () => {
-    console.log('yep, mutating');
-    return 'update-task'
+  const taskMutation = useMutation(async (task: TaskDTO) => {
+    return issueClient.updateIssuePositionAndStatus(task)
   }, {
     onMutate: async (updatedTask: TaskDTO) => {
-      console.log(updatedTask);
       await queryClient.cancelQueries(['issues'])
       const previousData = queryClient.getQueryData<TaskDTO[]>(['issues'])
 
@@ -48,7 +46,14 @@ export const useOptimisticallyUpdateTask = () => {
       })
 
       return { previousData }
-    }
+    },
+    onError: (_err, _newTodo, context) => {
+      queryClient.setQueryData('issues', context?.previousData)
+    },
+    // TODO: refetching issues causes problem with react-beautiful-dnd
+    // onSettled: () => {
+    //   queryClient.invalidateQueries('issues')
+    // },
   })
 
   return taskMutation

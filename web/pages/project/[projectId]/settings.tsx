@@ -86,7 +86,7 @@ const Settings = (props: SettingsProps) => {
         </Group>
       </Container>
     </div>
-  </>;
+  </>
 }
 
 export default Settings;

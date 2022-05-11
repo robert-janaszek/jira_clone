@@ -7,3 +7,5 @@ export interface TaskDTO {
   listPosition: number;
   description: string;
 }
+
+export type UpdateTaskDTO = Pick<TaskDTO, 'id'> & Partial<TaskDTO>
