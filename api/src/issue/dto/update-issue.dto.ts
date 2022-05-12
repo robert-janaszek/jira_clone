@@ -1,6 +1,6 @@
 import { Allow, IsArray, IsIn, IsNumber, IsOptional, IsString } from 'class-validator';
 import { User } from 'src/entities';
-import { IssuePriority, IssueStatus } from 'src/issue/types';
+import { IssuePriority, IssueStatus, IssueType } from 'src/issue/types';
 
 export class UpdateIssueDto {
   @IsOptional()
@@ -18,6 +18,11 @@ export class UpdateIssueDto {
   @IsOptional()
   @IsIn(Object.values(IssuePriority))
   priority: IssuePriority;
+  
+  
+  @IsOptional()
+  @IsIn(Object.values(IssueType))
+  type: IssueType;
   
   @IsOptional()
   @IsIn(Object.values(IssueStatus))
