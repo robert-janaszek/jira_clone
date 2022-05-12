@@ -16,7 +16,6 @@ export const Droppable = dynamic<DroppableProps>(
     }),
   {
     ssr: false,
-    loading: () => <>loading</>,
   },
 );
 
