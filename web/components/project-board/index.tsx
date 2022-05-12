@@ -12,7 +12,7 @@ import { useTaskDrop } from "../../module/tasks/dnd-service";
 const mapTasksForStatus = (tasks: TaskDTO[], taskStatus: string) => (<>
   {tasks
     .filter(({ status }) => status === taskStatus)
-    .map((task, index) => <Task id={task.id.toString()} index={index} key={task.id} />)
+    .map((task, index) => <Task taskId={task.id.toString()} index={index} key={task.id} />)
   }
 </>)
 
@@ -21,12 +21,16 @@ export const ProjectBoard = () => {
   const tasks = useOrderedTasks()
   const onTaskDrop = useTaskDrop()
 
-  if (isFetching || !tasks) {
+  if (isFetching && !tasks) {
     return <Center style={{ height: '100%' }}><Loader /></Center>
   }
 
   if (isError) {
     return <Center style={{ height: '100%' }}><AlertTriangle /><Text size="sm">Error occured</Text></Center>
+  }
+
+  if (!tasks) {
+    return <Center style={{ height: '100%' }}><AlertTriangle /><Text size="sm">Tasks were not loaded</Text></Center>
   }
 
   return <>

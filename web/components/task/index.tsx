@@ -3,12 +3,12 @@ import { Draggable } from "../dnd";
 
 
 export interface TaskProps {
-  id: string;
+  taskId: string;
   index: number;
 }
 
-export const Task = ({ id, index }: TaskProps) => (
-  <Draggable draggableId={id} index={index}>
+export const Task = ({ taskId, index }: TaskProps) => (
+  <Draggable draggableId={taskId} index={index} key={taskId}>
     {(dragProvided) => (
       <div
         ref={dragProvided.innerRef}
@@ -22,7 +22,7 @@ export const Task = ({ id, index }: TaskProps) => (
             <Badge sx={() => ({
               lineHeight: 24,
               height: 24,
-            })}>{id}</Badge>
+            })}>{taskId}</Badge>
             <Text size="sm">Do something</Text>
           </Group>
           <Text>this is it</Text>

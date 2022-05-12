@@ -50,10 +50,9 @@ export const useOptimisticallyUpdateTask = () => {
     onError: (_err, _newTodo, context) => {
       queryClient.setQueryData('issues', context?.previousData)
     },
-    // TODO: refetching issues causes problem with react-beautiful-dnd
-    // onSettled: () => {
-    //   queryClient.invalidateQueries('issues')
-    // },
+    onSettled: () => {
+      queryClient.invalidateQueries('issues')
+    },
   })
 
   return taskMutation
