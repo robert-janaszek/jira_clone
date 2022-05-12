@@ -20,14 +20,13 @@ export const Task = ({ task, index }: TaskProps) => {
         <Card mb="sm" sx={(theme) => ({
           backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
         })}>
-          <Group position="left">
+          <Group position="left" mb={5}>
             <Badge sx={() => ({
               lineHeight: 24,
               height: 24,
             })}>{task.id}</Badge>
-            <Text size="sm">Do something</Text>
+            <Text size="sm">{task.title}</Text>
           </Group>
-          <Text>this is it</Text>
           <Group position="apart">
             <TaskType type={task.type} />
             <TaskPriority priority={task.priority} />
