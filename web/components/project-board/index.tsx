@@ -12,7 +12,7 @@ import { useTaskDrop } from "../../module/tasks/dnd-service";
 const mapTasksForStatus = (tasks: TaskDTO[], taskStatus: string) => (<>
   {tasks
     .filter(({ status }) => status === taskStatus)
-    .map((task, index) => <Task taskId={task.id.toString()} index={index} key={task.id} />)
+    .map((task, index) => <Task task={task} index={index} key={task.id} />)
   }
 </>)
 
