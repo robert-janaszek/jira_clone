@@ -1,8 +1,7 @@
 import { Badge, Card, Group, Text, useMantineTheme } from "@mantine/core";
 import { Draggable } from "../dnd";
-import { SquareCheck, Badge as BadgeIcon, AlertCircle } from 'tabler-icons-react'
+import { SquareCheck, Badge as BadgeIcon, AlertCircle, ArrowDown, ChevronsDown, ArrowUp, ChevronsUp, Minus } from 'tabler-icons-react'
 import { TaskDTO } from "../../module/tasks/types";
-
 
 export interface TaskProps {
   task: TaskDTO;
@@ -31,7 +30,7 @@ export const Task = ({ task, index }: TaskProps) => {
           <Text>this is it</Text>
           <Group position="apart">
             <TaskType type={task.type} />
-            <Badge>Up</Badge>
+            <TaskPriority priority={task.priority} />
           </Group>
         </Card>
       </div>
@@ -52,5 +51,14 @@ const TaskType = ({ type }: { type: string }) => {
     return <AlertCircle color={theme.colorScheme === 'dark' ? theme.colors.red[9] : theme.colors.red[7]} />
   }
 
+  return null
+}
+
+const TaskPriority = ({ priority }: { priority: string }) => {
+  if (priority === '5') return <ChevronsUp />
+  if (priority === '4') return <ArrowUp />
+  if (priority === '3') return <Minus />
+  if (priority === '2') return <ArrowDown />
+  if (priority === '1') return <ChevronsDown />
   return null
 }
