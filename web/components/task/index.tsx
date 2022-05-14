@@ -41,13 +41,22 @@ const TaskType = ({ type }: { type: string }) => {
   const theme = useMantineTheme()
 
   if (type === 'story') {
-    return <BadgeIcon color={theme.colorScheme === 'dark' ? theme.colors.teal[9] : theme.colors.teal[7]} />
+    return <div>
+      <BadgeIcon color={theme.colorScheme === 'dark' ? theme.colors.teal[9] : theme.colors.teal[7]} style={{ verticalAlign: 'middle' }} />
+      <span style={{ verticalAlign: 'middle' }}>Story</span>
+    </div>
   }
   if (type === 'task') {
-    return <SquareCheck color={theme.colorScheme === 'dark' ? theme.colors.indigo[9] : theme.colors.indigo[7]} />
+    return <div>
+      <SquareCheck color={theme.colorScheme === 'dark' ? theme.colors.indigo[9] : theme.colors.indigo[7]} style={{ verticalAlign: 'middle' }} />
+      <span style={{ verticalAlign: 'middle' }}>Task</span>
+    </div>
   }
   if (type === 'bug') {
-    return <AlertCircle color={theme.colorScheme === 'dark' ? theme.colors.red[9] : theme.colors.red[7]} />
+    return <div>
+      <AlertCircle color={theme.colorScheme === 'dark' ? theme.colors.red[9] : theme.colors.red[7]} style={{ verticalAlign: 'middle' }} />
+      <span style={{ verticalAlign: 'middle' }}>Bug</span>
+    </div>
   }
 
   return null
