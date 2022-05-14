@@ -20,7 +20,7 @@ export const TaskEdit = ({ task }: TaskEditProps) => {
       onChange={(event) => setTitle(event.currentTarget.value)}
       onBlur={() => console.log('save this')}
     />
-    <Text>Description</Text>
+    <Text size="sm" weight={500}>Description</Text>
     <RichTextEditor value={description} onChange={(value) => setDescription(value)} />
   </div>
 }
