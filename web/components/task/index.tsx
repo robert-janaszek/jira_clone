@@ -1,7 +1,9 @@
-import { Badge, Card, Group, Text, useMantineTheme } from "@mantine/core";
+import { Badge, Card, Group, Modal, Text, useMantineTheme } from "@mantine/core";
 import { Draggable } from "../dnd";
 import { SquareCheck, Badge as BadgeIcon, AlertCircle, ArrowDown, ChevronsDown, ArrowUp, ChevronsUp, Minus } from 'tabler-icons-react'
 import { TaskDTO } from "../../module/tasks/types";
+import { useState } from "react";
+import { TaskEdit } from "./task-edit";
 
 export interface TaskProps {
   task: TaskDTO;
@@ -9,6 +11,8 @@ export interface TaskProps {
 }
 
 export const Task = ({ task, index }: TaskProps) => {
+  const [isModalOpened, setOpened] = useState(false)
+  const theme = useMantineTheme()
 
   return <Draggable draggableId={task.id.toString()} index={index} key={task.id}>
     {(dragProvided) => (
@@ -17,9 +21,21 @@ export const Task = ({ task, index }: TaskProps) => {
         {...dragProvided.draggableProps}
         {...dragProvided.dragHandleProps}
       >
+        <Modal
+          opened={isModalOpened}
+          onClose={() => setOpened(false)}
+          title={`${task.type.toUpperCase()}: ${task.id}`}
+          overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
+          overlayOpacity={0.55}
+          overlayBlur={3}
+          size="70%"
+        >
+          <TaskEdit task={task} />
+        </Modal>
         <Card mb="sm" sx={(theme) => ({
           backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-        })}>
+        })}
+        onClick={() => setOpened(true)}>
           <Group position="left" mb={5}>
             <Badge sx={() => ({
               lineHeight: 24,
