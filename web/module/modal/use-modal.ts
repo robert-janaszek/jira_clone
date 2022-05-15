@@ -9,7 +9,9 @@ export const useModal = () => {
     closeSubject,
     onClose: (callback: () => void) => {
       useEffect(() => {
-        closeSubject.subscribe(callback)
+        const subscription = closeSubject.subscribe(callback)
+
+        return () => subscription.unsubscribe()
       }, [])
     },
     close,
