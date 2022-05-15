@@ -12,10 +12,9 @@ export interface TaskProps {
 }
 
 export const Task = ({ task, index }: TaskProps) => {
-  const [isModalOpened, setOpened] = useState(false)
   const theme = useMantineTheme()
-  const { close, onClose } = useModal()
-  onClose(() => setOpened(false))
+  const { open, close, onClose, isOpened } = useModal(false)
+
 
   return <Draggable draggableId={task.id.toString()} index={index} key={task.id}>
     {(dragProvided) => (
@@ -25,7 +24,7 @@ export const Task = ({ task, index }: TaskProps) => {
         {...dragProvided.dragHandleProps}
       >
         <Modal
-          opened={isModalOpened}
+          opened={isOpened}
           onClose={close}
           title={`${task.type.toUpperCase()}: ${task.id}`}
           overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
@@ -38,7 +37,7 @@ export const Task = ({ task, index }: TaskProps) => {
         <Card mb="sm" sx={(theme) => ({
           backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
         })}
-        onClick={() => setOpened(true)}>
+        onClick={() => open()}>
           <Group position="left" mb={5}>
             <Badge sx={() => ({
               lineHeight: 24,

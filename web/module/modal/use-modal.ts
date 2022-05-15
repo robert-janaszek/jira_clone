@@ -1,11 +1,17 @@
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Subject } from "rxjs"
 
-export const useModal = () => {
+export const useModal = (opened: boolean) => {
+  const [isOpened, setOpened] = useState(opened)
   const closeSubject = useMemo(() => new Subject<void>(), [])
-  const close = useMemo(() => () => closeSubject.next(), [])
+  const open = useMemo(() => () => setOpened(true), [])
+  const close = useMemo(() => () => {
+    setOpened(false)
+    closeSubject.next()
+  }, [])
 
   return {
+    isOpened,
     closeSubject,
     onClose: (callback: () => void) => {
       useEffect(() => {
@@ -14,6 +20,7 @@ export const useModal = () => {
         return () => subscription.unsubscribe()
       }, [])
     },
+    open,
     close,
   }
 }
