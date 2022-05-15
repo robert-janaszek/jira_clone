@@ -4,6 +4,7 @@ import { SquareCheck, Badge as BadgeIcon, AlertCircle, ArrowDown, ChevronsDown, 
 import { TaskDTO } from "../../module/tasks/types";
 import { useState } from "react";
 import { TaskEdit } from "./task-edit";
+import { useModal } from "../../module/modal/use-modal";
 
 export interface TaskProps {
   task: TaskDTO;
@@ -13,6 +14,8 @@ export interface TaskProps {
 export const Task = ({ task, index }: TaskProps) => {
   const [isModalOpened, setOpened] = useState(false)
   const theme = useMantineTheme()
+  const { close, onClose } = useModal()
+  onClose(() => setOpened(false))
 
   return <Draggable draggableId={task.id.toString()} index={index} key={task.id}>
     {(dragProvided) => (
@@ -23,14 +26,14 @@ export const Task = ({ task, index }: TaskProps) => {
       >
         <Modal
           opened={isModalOpened}
-          onClose={() => setOpened(false)}
+          onClose={close}
           title={`${task.type.toUpperCase()}: ${task.id}`}
           overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
           overlayOpacity={0.55}
           overlayBlur={3}
           size="70%"
         >
-          <TaskEdit task={task} />
+          <TaskEdit task={task} onClose={onClose} />
         </Modal>
         <Card mb="sm" sx={(theme) => ({
           backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],

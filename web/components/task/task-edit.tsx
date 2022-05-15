@@ -1,15 +1,19 @@
 import { Text, TextInput } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TaskDTO } from "../../module/tasks/types";
 import RichTextEditor from '../rte'
+import { useQueryClient } from "react-query";
 
 export interface TaskEditProps {
   task: TaskDTO;
+  onClose: (callback: () => void) => void;
 }
 
-export const TaskEdit = ({ task }: TaskEditProps) => {
+export const TaskEdit = ({ task, onClose }: TaskEditProps) => {
   const [title, setTitle] = useState(task.title)
   const [description, setDescription] = useState(task.description)
+  const queryClient = useQueryClient()
+  onClose(() => queryClient.invalidateQueries(['issues']))
 
   return <div>
     <TextInput
@@ -18,7 +22,6 @@ export const TaskEdit = ({ task }: TaskEditProps) => {
       required
       value={title}
       onChange={(event) => setTitle(event.currentTarget.value)}
-      onBlur={() => console.log('save this')}
     />
     <Text size="sm" weight={500}>Description</Text>
     <RichTextEditor value={description} onChange={(value) => setDescription(value)} />
