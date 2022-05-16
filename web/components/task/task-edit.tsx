@@ -24,6 +24,6 @@ export const TaskEdit = ({ task, onClose }: TaskEditProps) => {
       onChange={(event) => setTitle(event.currentTarget.value)}
     />
     <Text size="sm" weight={500}>Description</Text>
-    <RichTextEditor value={description} onChange={(value) => setDescription(value)} />
+    <RichTextEditor value={description} onChange={(value) => setDescription(value)} style={{ minHeight: 200}} />
   </div>
 }
