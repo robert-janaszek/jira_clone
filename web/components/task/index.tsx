@@ -2,9 +2,8 @@ import { Badge, Card, Group, Modal, Text, useMantineTheme } from "@mantine/core"
 import { Draggable } from "../dnd";
 import { SquareCheck, Badge as BadgeIcon, AlertCircle, ArrowDown, ChevronsDown, ArrowUp, ChevronsUp, Minus } from 'tabler-icons-react'
 import { TaskDTO } from "../../module/tasks/types";
-import { useState } from "react";
 import { TaskEdit } from "./task-edit";
-import { useModal } from "../../module/modal/use-modal";
+import { useModal } from "../../module/modal/service";
 
 export interface TaskProps {
   task: TaskDTO;
