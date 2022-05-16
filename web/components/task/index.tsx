@@ -1,4 +1,4 @@
-import { Badge, Card, Group, Modal, Text, useMantineTheme } from "@mantine/core";
+import { Badge, Card, Grid, Group, Modal, Text, useMantineTheme } from "@mantine/core";
 import { Draggable } from "../dnd";
 import { SquareCheck, Badge as BadgeIcon, AlertCircle, ArrowDown, ChevronsDown, ArrowUp, ChevronsUp, Minus } from 'tabler-icons-react'
 import { TaskDTO } from "../../module/tasks/types";
@@ -37,12 +37,13 @@ export const Task = ({ task, index }: TaskProps) => {
           backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
         })}
         onClick={() => open()}>
-          <Group position="left" mb={5}>
+          <Group mb={5} style={{ flexWrap: 'nowrap' }}>
             <Badge sx={() => ({
               lineHeight: 24,
               height: 24,
+              minWidth: 30,
             })}>{task.id}</Badge>
-            <Text size="sm">{task.title}</Text>
+            <Text style={{ flexGrow: 1 }} size="sm">{task.title}</Text>
           </Group>
           <Group position="apart">
             <TaskType type={task.type} />
