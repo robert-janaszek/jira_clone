@@ -4,7 +4,7 @@
   "author": "Ivor Reic",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server",
+    "dev": "webpack-dev-server",
     "start:production": "pm2 start --name 'jira_client' server.js",
     "test:jest": "jest",
     "test:cypress": "node_modules/.bin/cypress open",

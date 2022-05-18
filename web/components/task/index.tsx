@@ -25,7 +25,7 @@ export const Task = ({ task, index }: TaskProps) => {
         <Modal
           opened={isOpened}
           onClose={close}
-          title={`${task.type.toUpperCase()}: ${task.id}`}
+          title={<><TaskType type={task.type} /><div style={{ display: 'inline-block', lineHeight: '24px', verticalAlign: 'top', marginLeft: 4 }}> {task.id}</div></>}
           overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
           overlayOpacity={0.55}
           overlayBlur={3}
@@ -39,7 +39,7 @@ export const Task = ({ task, index }: TaskProps) => {
         onClick={() => open()}>
           <Group mb={5} style={{ flexWrap: 'nowrap' }}>
             <Badge sx={() => ({
-              lineHeight: 24,
+              lineHeight: '24px',
               height: 24,
               minWidth: 30,
             })}>{task.id}</Badge>
@@ -57,23 +57,25 @@ export const Task = ({ task, index }: TaskProps) => {
 
 const TaskType = ({ type }: { type: string }) => {
   const theme = useMantineTheme()
+  const containerStyle = { display: 'inline-block' }
+  const taskItemsStyle = { display: 'inline-block', verticalAlign: 'top', lineHeight: '24px' }
 
   if (type === 'story') {
-    return <div>
-      <BadgeIcon color={theme.colorScheme === 'dark' ? theme.colors.teal[9] : theme.colors.teal[7]} style={{ verticalAlign: 'middle' }} />
-      <span style={{ verticalAlign: 'middle' }}>Story</span>
+    return <div style={containerStyle}>
+      <BadgeIcon color={theme.colorScheme === 'dark' ? theme.colors.teal[9] : theme.colors.teal[7]} style={taskItemsStyle} />
+      <span style={taskItemsStyle}>Story</span>
     </div>
   }
   if (type === 'task') {
-    return <div>
-      <SquareCheck color={theme.colorScheme === 'dark' ? theme.colors.indigo[9] : theme.colors.indigo[7]} style={{ verticalAlign: 'middle' }} />
-      <span style={{ verticalAlign: 'middle' }}>Task</span>
+    return <div style={containerStyle}>
+      <SquareCheck color={theme.colorScheme === 'dark' ? theme.colors.indigo[9] : theme.colors.indigo[7]} style={taskItemsStyle} />
+      <span style={taskItemsStyle}>Task</span>
     </div>
   }
   if (type === 'bug') {
-    return <div>
-      <AlertCircle color={theme.colorScheme === 'dark' ? theme.colors.red[9] : theme.colors.red[7]} style={{ verticalAlign: 'middle' }} />
-      <span style={{ verticalAlign: 'middle' }}>Bug</span>
+    return <div style={containerStyle}>
+      <AlertCircle color={theme.colorScheme === 'dark' ? theme.colors.red[9] : theme.colors.red[7]} style={taskItemsStyle} />
+      <span style={taskItemsStyle}>Bug</span>
     </div>
   }
 
