@@ -23,7 +23,7 @@ export const taskSorter = (taskA: TaskDTO, taskB: TaskDTO) =>
 export const useOptimisticallyUpdateTask = () => {
   const queryClient = useQueryClient()
   const taskMutation = useMutation(async (task: TaskDTO) => {
-    return issueClient.updateIssuePositionAndStatus(task)
+    return issueClient.updateTask(task)
   }, {
     onMutate: async (updatedTask: TaskDTO) => {
       await queryClient.cancelQueries(['issues'])
