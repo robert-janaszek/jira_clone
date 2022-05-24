@@ -8,9 +8,9 @@ export class IssueClient extends RestClient {
   }
 
   public async updateTask(issue: TaskDTO) {
-    const { id, listPosition, status, title } = issue
+    const { id, listPosition, status, title, description } = issue
     return this.put<TaskDTO>('http://localhost:3000/issues/' + id, {
-      body: { listPosition, status, title }
+      body: { listPosition, status, title, description }
     })
   }
 }

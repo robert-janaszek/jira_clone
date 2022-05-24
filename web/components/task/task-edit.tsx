@@ -1,4 +1,4 @@
-import { Divider, Grid, Text, TextInput } from "@mantine/core";
+import { Button, Divider, Grid, Text, TextInput } from "@mantine/core";
 import { useCallback, useState } from "react";
 import { TaskDTO } from "../../module/tasks/types";
 import RichTextEditor from '../rte'
@@ -48,6 +48,16 @@ export const TaskEdit = ({ task, onClose }: TaskEditProps) => {
       updateTaskMutation.mutate(updatedTask)
     }
   }, [task, title, isTitleModified])
+  const onDescriptionSave = useCallback(() => {
+    if (isDescriptionModified) {
+      resetDescriptionModified()
+      const updatedTask = {
+        ...task,
+        description
+      }
+      updateTaskMutation.mutate(updatedTask)
+    }
+  }, [task, description, isDescriptionModified]);
   const queryClient = useQueryClient()
   onClose(() => queryClient.invalidateQueries(['issues']))
 
@@ -63,6 +73,7 @@ export const TaskEdit = ({ task, onClose }: TaskEditProps) => {
       />
       <Text size="sm" weight={500}>Description</Text>
       <RichTextEditor value={description} onChange={(value) => setDescription(value)} style={{ minHeight: 200}} />
+      {isDescriptionModified && <><Button onClick={onDescriptionSave}>Save</Button><Button variant="default">Cancel</Button></>}
     </Grid.Col>
     <Grid.Col span={4}>
       Status
