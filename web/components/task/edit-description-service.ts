@@ -5,6 +5,7 @@ import { useStateIsModified } from "./state-is-modified-service";
 
 export const useEditTaskDescription = (task: TaskDTO) => {
   const updateTaskMutation = useOptimisticallyUpdateTask()
+  // TODO: fix is description modified - for some tasks it shows always true
   const { value: description, setValue: setDescription, isModified: isDescriptionModified, resetModified: resetDescriptionModified, reset: resetDescription } = useStateIsModified(task.description)
 
   const saveDescription = useCallback(() => {

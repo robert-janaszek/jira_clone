@@ -5,6 +5,7 @@ import { useQueryClient } from "react-query";
 import moment from 'moment';
 import { useEditTaskTitle } from "./edit-title-service";
 import { useEditTaskDescription } from "./edit-description-service";
+import { StatusEdit } from "./status-edit";
 
 export interface TaskEditProps {
   task: TaskDTO;
@@ -33,7 +34,7 @@ export const TaskEdit = ({ task, onClose }: TaskEditProps) => {
       {isDescriptionModified && <><Button onClick={saveDescription}>Save</Button><Button variant="default" onClick={resetDescription}>Cancel</Button></>}
     </Grid.Col>
     <Grid.Col span={4}>
-      Status
+      <StatusEdit task={task} />
       Assignees
       Reporter
       Priority
