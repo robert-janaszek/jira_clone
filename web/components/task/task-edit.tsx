@@ -6,6 +6,7 @@ import moment from 'moment';
 import { useEditTaskTitle } from "./edit-title-service";
 import { useEditTaskDescription } from "./edit-description-service";
 import { StatusEdit } from "./status-edit";
+import { PriorityEdit } from "./priority-edit";
 
 export interface TaskEditProps {
   task: TaskDTO;
@@ -37,7 +38,7 @@ export const TaskEdit = ({ task, onClose }: TaskEditProps) => {
       <StatusEdit task={task} />
       Assignees
       Reporter
-      Priority
+      <PriorityEdit task={task} />
       <Divider my="sm" />
       <Text size="xs">Created {moment(task.createdAt).fromNow()}</Text>
       <Text size="xs">Updated {moment(task.updatedAt).fromNow()}</Text>
